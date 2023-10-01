@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+{% block title %}
+new
+{% endblock title %}
+{% block content %}
+<h5>
+    <strong>{{ new.header }}</strong>
+            <h2>{{ new.text }}</h2>
+    <hr>
+            <img src="{{ new.image.url }}" width="700px">
+    <hr>
+</h5>
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% extends 'flatpages/default.html' %}
+{% block title %}
+Notice
+{% endblock title %}
+{% block content %}
+<h1>Все новости {{notice|length}}</h1>
+<hr>
+{% if notice%}
+<table>
+    <tr>
+        <td><strong>заголовок</strong></td>
+        <td><strong>дата публикации</strong></td>
+        <td><strong>описание</strong></td>
+        <td><strong>изображения</strong></td>
+    </tr>
+    {% for notic in notice%}
+    <tr>
+       <td><li><a href="http://127.0.0.1:8000/{{ notic.get_url }}">{{notic.header}}</a></li></td>
+        <td>{{ notic.data_time }}</td>
+        <td>{{ notic.text|truncatewords:20 }}</td>
+        <td><img src="{{ notic.image.url }}" width="100px"></td></td>
+
+
+    </tr>
+    {% endfor %}
+
+</table>
+{% else %}
+<h1>новостей нет</h1>
+{%endif%}
+{% if page_obj.has_previous %}
+<a href="?page=1">1</a>
+{% if page_obj.previous_page_number != 1 %}
+...
+<a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+{% endif %}
+
+{# Информация о текущей странице #}
+{{ page_obj.number }}
+
+{# Информация о следующих страницах #}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+<a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+{% endif %}
+{% endif %}
+{% endblock content %}
