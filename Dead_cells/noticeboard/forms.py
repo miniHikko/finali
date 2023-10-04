@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Coment
 from django.core.exceptions import ValidationError
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
@@ -15,7 +15,6 @@ class BasicSignupForm(SignupForm):
 
 
 class NewsForm(forms.ModelForm):
-
     class Meta:
         model = Post
         fields = [
@@ -37,3 +36,13 @@ class NewsForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+
+class ComitForm(forms.ModelForm):
+    class Meta:
+        model = Coment
+        fields = [
+            'coment_text',
+            'user_coment',
+            'post_coment',
+        ]

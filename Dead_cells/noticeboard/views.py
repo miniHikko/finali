@@ -1,12 +1,12 @@
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, request
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
-from .forms import NewsForm
-from .models import Post
+from .forms import NewsForm, ComitForm
+from .models import Post, Coment, User
 
 
 class NoticeList(LoginRequiredMixin, ListView):
@@ -21,13 +21,21 @@ class create_post(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     model = Post
     template_name = 'news_edit.html'
-    success_url = '/noticeboard/'
 
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        post.position = self.request.path
-        return HttpResponseRedirect('/noticeboard/'), super().form_valid(form),
 
+class create_comit(LoginRequiredMixin, CreateView):
+    form_class = ComitForm
+    model = Coment
+    template_name = 'comit.html'
+
+
+@login_required
+def Comittoouser(reguest):
+    context = {'comit'}
+    user = request.User
+    userPost = user.objects.all(Post)
+    usertopost = userPost.objects.all(Coment)
+    return render(request=request, template_name='comituser.html', context=context)
 
 
 # def create_pos(reguest):
@@ -43,3 +51,11 @@ class PostDetail(LoginRequiredMixin, DetailView):
     model = Post
     template_name = 'new.html'
     context_object_name = 'new'
+
+
+class Comituser(LoginRequiredMixin, ListView):
+    model = Coment
+    ordering = '-id'
+    template_name = 'comituser.html'
+    context_object_name = 'comit'
+    paginate_by = 10

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -23,6 +24,9 @@ class Post(models.Model):
     def get_url(self):
         return f'/noticeboard/{self.id}'
 
+    def get_absolute_url(self):
+        return reverse('details', args=[str(self.id)])
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -34,3 +38,6 @@ class Coment(models.Model):
     user_coment = models.ForeignKey(User, on_delete=models.CASCADE)
     coment_text = models.TextField(max_length=3000)
     date_time = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse('details', args=[str(self.id)])
