@@ -1,7 +1,5 @@
 from django.urls import path
-from django.views.decorators.cache import cache_page
-
-from .views import NoticeList, create_post, PostDetail, create_comit, Comituser, Comittoouser
+from .views import NoticeList, create_post, PostDetail, create_comit, Comituser, ComDelete
 
 urlpatterns = [
     path('', (NoticeList.as_view()), name='news'),
@@ -9,5 +7,6 @@ urlpatterns = [
     path('<int:pk>', PostDetail.as_view(), name="details"),
     path('comit/', create_comit.as_view(success_url="/noticeboard/"), name='comit'),
     path('urcomit/', Comituser.as_view(), name='urcomit'),
-    path("comitto/", Comittoouser, name=('comitto')),
+    path('urcomit/<int:pk>/del', ComDelete.as_view(), name='delcom')
+
 ]

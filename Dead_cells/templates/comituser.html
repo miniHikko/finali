@@ -5,16 +5,35 @@ Coment
 {% block content %}
 <h1>Все коментарии к вашим постам {{comit|length}}</h1>
 <hr>
+<h3>поиск коментариев</h3>
+<form action="" method="get">
+    {{ filterset.form.as_p }}
+    <input type="submit" value="Найти"/>
+</form>
 {% if comit%}
 <table>
     <tr>
         <td><strong>коментарий</strong></td>
         <td><strong>от кого</strong></td>
+        <td><strong>к какому посту</strong></td>
+        <td><strong>удалить</strong></td>
+        <td><strong>принять</strong></td>
+
     </tr>
     {% for com in comit%}
     <tr>
         <td>{{ com.coment_text}}</td>
         <td>{{ com.user_coment}}</td>
+        <td>
+            <li><a href="http://127.0.0.1:8000/{{ com.post_coment.get_url }}">{{com.post_coment}}</a></li>
+        </td>
+        <td>
+            <li><a href="http://127.0.0.1:8000/noticeboard/urcomit/{{ com.pk}}/del">удалить коментарий</a></li>
+
+        </td>
+        <td>{{com.prinit}}
+            <button name="confirm" value="confirmed">принять</button></td>
+
     </tr>
     {% endfor %}
 

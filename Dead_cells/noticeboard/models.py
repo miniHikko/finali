@@ -38,6 +38,7 @@ class Coment(models.Model):
     user_coment = models.ForeignKey(User, on_delete=models.CASCADE)
     coment_text = models.TextField(max_length=3000)
     date_time = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('details', args=[str(self.id)])
